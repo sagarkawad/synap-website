@@ -3,13 +3,14 @@ import Navbar from './components/Navbar';
 import Hero from './components/sections/Hero';
 import Services from './components/sections/Services';
 import Projects from './components/sections/Projects';
-import Events from './components/sections/Events';
 import About from './components/sections/About';
 import Contact from './components/sections/Contact';
+import Trainings from './pages/Trainings';
 import Footer from './components/Footer';
 
 function App() {
   const [activeSection, setActiveSection] = useState('home');
+  const [showTrainings, setShowTrainings] = useState(false);
 
   useEffect(() => {
     const observerOptions = {
@@ -31,38 +32,45 @@ function App() {
     
     animatedElements.forEach(element => observer.observe(element));
 
-    // Add scroll event listener for active section detection
     const handleScroll = () => {
-      const scrollPosition = window.scrollY;
-      
-      const sections = document.querySelectorAll('section');
-      sections.forEach(section => {
-        const sectionTop = section.offsetTop - 100;
-        const sectionHeight = section.offsetHeight;
-        const sectionId = section.getAttribute('id');
+      if (!showTrainings) {
+        const scrollPosition = window.scrollY;
         
-        if (
-          scrollPosition >= sectionTop && 
-          scrollPosition < sectionTop + sectionHeight &&
-          sectionId
-        ) {
-          setActiveSection(sectionId);
-        }
-      });
+        const sections = document.querySelectorAll('section');
+        sections.forEach(section => {
+          const sectionTop = section.offsetTop - 100;
+          const sectionHeight = section.offsetHeight;
+          const sectionId = section.getAttribute('id');
+          
+          if (
+            scrollPosition >= sectionTop && 
+            scrollPosition < sectionTop + sectionHeight &&
+            sectionId
+          ) {
+            setActiveSection(sectionId);
+          }
+        });
+      }
     };
 
-    window.addEventListener('scroll', handleScroll);
-    
-    // Call once to set initial active section
-    handleScroll();
+    if (!showTrainings) {
+      window.addEventListener('scroll', handleScroll);
+      handleScroll();
+    }
     
     return () => {
       window.removeEventListener('scroll', handleScroll);
       observer.disconnect();
     };
-  }, []);
+  }, [showTrainings]);
 
   const handleNavClick = (section: string) => {
+    if (section === 'trainings') {
+      setShowTrainings(true);
+      return;
+    }
+
+    setShowTrainings(false);
     setActiveSection(section);
     const element = document.getElementById(section);
     if (element) {
@@ -77,13 +85,22 @@ function App() {
     handleNavClick('services');
   };
 
+  if (showTrainings) {
+    return (
+      <div className="font-sans text-gray-900 antialiased">
+        <Navbar activeSection="trainings" handleNavClick={handleNavClick} />
+        <Trainings />
+        <Footer />
+      </div>
+    );
+  }
+
   return (
     <div className="font-sans text-gray-900 antialiased">
       <Navbar activeSection={activeSection} handleNavClick={handleNavClick} />
       <Hero onScrollDown={scrollToServices} />
       <Services />
       <Projects />
-      <Events />
       <About />
       <Contact />
       <Footer />

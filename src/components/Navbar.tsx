@@ -10,7 +10,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, handleNavClick }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const navItems = ['home', 'services', 'events', 'about', 'contact'];
+  const navItems = ['home', 'services', 'trainings', 'about', 'contact'];
 
   useEffect(() => {
     const handleScroll = () => {
