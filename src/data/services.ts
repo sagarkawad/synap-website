@@ -27,7 +27,7 @@ const services: ServiceType[] = [
   },
   {
     id: 5,
-    title: 'PPC Advertising',
+    title: 'Business Processing and Consultation Services',
     description: 'Strategic pay-per-click advertising campaigns to increase visibility and drive conversions for your business.',
     icon: 'mouse-pointer'
   },
