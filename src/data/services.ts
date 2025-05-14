@@ -28,7 +28,7 @@ const services: ServiceType[] = [
   {
     id: 5,
     title: 'Business Processing and Consultation Services',
-    description: 'Streamline operations and maximize efficiency with our expert business processing and consultation services. From workflow optimization to strategic advisory, we provide tailored solutions that reduce costs, enhance productivity, and drive sustainable growth for your organization.',
+    description: 'Streamline operations and maximize efficiency with our expert business processing and consultation services.',
     icon: 'mouse-pointer'
   },
   {
