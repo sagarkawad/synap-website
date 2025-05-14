@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --primary: #ff3333;
+  --primary-dark: #cc0000;
+  --secondary: #000000;
+  --light: #ffffff;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: #333;
+  overflow-x: hidden;
+}
+
+/* Custom cursor on body */
+@media (min-width: 768px) {
+  body {
+    cursor: auto;
+  }
+  
+  a, button, [role="button"], .cursor-pointer {
+    cursor: pointer;
+  }
+}
+
+/* Smooth transitions for links and buttons */
+a, button {
+  transition: all 0.3s ease;
+}
+
+/* Animation classes */
+[data-animate] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.show-element {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade animations */
+.fade-up {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-up.show-element {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.fade-right {
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-right.show-element {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+.fade-left {
+  opacity: 0;
+  transform: translateX(20px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.fade-left.show-element {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Custom utility classes */
+.nav-link::after {
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s;
+  margin-top: 4px;
+}
+
+.nav-link:hover::after {
+  width: 100%;
+}
+
+/* Hide scrollbar for cleaner look */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* Focus styles for accessibility */
+*:focus-visible {
+  outline: 2px solid var(--primary);
+  outline-offset: 2px;
+}
+
+/* Custom text selection */
+::selection {
+  background-color: var(--primary);
+  color: white;
+}
