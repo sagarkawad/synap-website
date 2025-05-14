@@ -28,7 +28,7 @@ const services: ServiceType[] = [
   {
     id: 5,
     title: 'Business Processing and Consultation Services',
-    description: 'Strategic pay-per-click advertising campaigns to increase visibility and drive conversions for your business.',
+    description: Streamline operations and maximize efficiency with our expert business processing and consultation services. From workflow optimization to strategic advisory, we provide tailored solutions that reduce costs, enhance productivity, and drive sustainable growth for your organization.',
     icon: 'mouse-pointer'
   },
   {
