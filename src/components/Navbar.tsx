@@ -1,16 +1,19 @@
 import React, { useState, useEffect } from 'react';
+import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, BrainCircuit } from 'lucide-react';
 
-interface NavbarProps {
-  activeSection: string;
-  handleNavClick: (section: string) => void;
-}
-
-const Navbar: React.FC<NavbarProps> = ({ activeSection, handleNavClick }) => {
+const Navbar: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const location = useLocation();
 
-  const navItems = ['home', 'services', 'trainings', 'about', 'contact'];
+  const navItems = [
+    { path: '/', label: 'Home' },
+    { path: '/#services', label: 'Services' },
+    { path: '/trainings', label: 'Trainings' },
+    { path: '/#about', label: 'About' },
+    { path: '/#contact', label: 'Contact' }
+  ];
 
   useEffect(() => {
     const handleScroll = () => {
@@ -22,7 +25,28 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, handleNavClick }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleNavClick = (path: string) => {
+    setIsMobileMenuOpen(false);
+    if (path.startsWith('/#')) {
+      const element = document.getElementById(path.substring(2));
+      if (element) {
+        window.scrollTo({
+          top: element.offsetTop - 80,
+          behavior: 'smooth'
+        });
+      }
+    }
+  };
+
+  const isActive = (path: string) => {
+    if (path === '/') {
+      return location.pathname === '/';
+    }
+    if (path.startsWith('/#')) {
+      return location.hash === path.substring(1);
+    }
+    return location.pathname === path;
+  };
 
   return (
     <header 
@@ -32,31 +56,29 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, handleNavClick }) => {
     >
       <div className="container mx-auto px-4 md:px-6">
         <div className="flex justify-between items-center">
-          <div 
-            className="flex items-center cursor-pointer" 
-            onClick={() => handleNavClick('home')}
-          >
+          <Link to="/" className="flex items-center">
             <BrainCircuit size={28} className="text-red-500 mr-2" />
             <span className="text-white font-bold text-xl md:text-2xl tracking-tight">
               SynapTech<span className="text-red-500">Verse</span>
             </span>
-          </div>
+          </Link>
 
           {/* Desktop Navigation */}
           <nav className="hidden md:block">
             <ul className="flex space-x-8">
               {navItems.map((item) => (
-                <li key={item}>
-                  <button
-                    onClick={() => handleNavClick(item)}
+                <li key={item.path}>
+                  <Link
+                    to={item.path}
+                    onClick={() => handleNavClick(item.path)}
                     className={`nav-link text-sm uppercase tracking-wider font-medium transition-colors duration-300 ${
-                      activeSection === item
+                      isActive(item.path)
                         ? 'text-red-500'
                         : 'text-white/80 hover:text-white'
                     }`}
                   >
-                    {item}
-                  </button>
+                    {item.label}
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -65,7 +87,7 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, handleNavClick }) => {
           {/* Mobile Menu Button */}
           <button
             className="md:hidden text-white focus:outline-none"
-            onClick={toggleMobileMenu}
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label="Toggle menu"
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
@@ -82,20 +104,18 @@ const Navbar: React.FC<NavbarProps> = ({ activeSection, handleNavClick }) => {
         <div className="flex flex-col h-full justify-center items-center">
           <ul className="flex flex-col items-center space-y-8">
             {navItems.map((item) => (
-              <li key={item}>
-                <button
-                  onClick={() => {
-                    handleNavClick(item);
-                    toggleMobileMenu();
-                  }}
+              <li key={item.path}>
+                <Link
+                  to={item.path}
+                  onClick={() => handleNavClick(item.path)}
                   className={`text-xl uppercase tracking-wider font-medium transition-colors duration-300 ${
-                    activeSection === item
+                    isActive(item.path)
                       ? 'text-red-500'
                       : 'text-white/80 hover:text-white'
                   }`}
                 >
-                  {item}
-                </button>
+                  {item.label}
+                </Link>
               </li>
             ))}
           </ul>
