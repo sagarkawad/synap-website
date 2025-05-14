@@ -2,7 +2,7 @@ import React from 'react';
 import { Calendar, Users, MapPin, Clock } from 'lucide-react';
 
 const Trainings: React.FC = () => {
-  const events = [
+  const upcomingEvents = [
     {
       id: 1,
       title: 'Web Development Bootcamp',
@@ -23,6 +23,27 @@ const Trainings: React.FC = () => {
     }
   ];
 
+  const pastEvents = [
+    {
+      id: 3,
+      title: 'React Advanced Concepts',
+      date: 'March 5-6, 2024',
+      time: '9:00 AM - 4:00 PM',
+      location: 'Viman Nagar, Pune',
+      description: 'Deep dive into advanced React concepts, hooks, and state management.',
+      image: 'https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    },
+    {
+      id: 4,
+      title: 'Cloud Computing Workshop',
+      date: 'February 15-17, 2024',
+      time: '10:00 AM - 5:00 PM',
+      location: 'Kharadi, Pune',
+      description: 'Comprehensive workshop on cloud platforms, architecture, and deployment strategies.',
+      image: 'https://images.pexels.com/photos/1181675/pexels-photo-1181675.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+    }
+  ];
+
   const trainers = [
     {
       id: 1,
@@ -40,9 +61,44 @@ const Trainings: React.FC = () => {
     }
   ];
 
+  const EventCard = ({ event, isPast = false }) => (
+    <div className="bg-white rounded-lg overflow-hidden shadow-lg">
+      <div className="h-48 overflow-hidden">
+        <img
+          src={event.image}
+          alt={event.title}
+          className="w-full h-full object-cover"
+        />
+      </div>
+      <div className="p-6">
+        <h3 className="text-xl font-bold mb-4">{event.title}</h3>
+        <div className="space-y-3 text-gray-600">
+          <div className="flex items-center">
+            <Calendar size={18} className="text-red-500 mr-2" />
+            <span>{event.date}</span>
+          </div>
+          <div className="flex items-center">
+            <Clock size={18} className="text-red-500 mr-2" />
+            <span>{event.time}</span>
+          </div>
+          <div className="flex items-center">
+            <MapPin size={18} className="text-red-500 mr-2" />
+            <span>{event.location}</span>
+          </div>
+        </div>
+        <p className="mt-4 text-gray-600">{event.description}</p>
+        {!isPast && (
+          <button className="mt-6 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
+            Register Now
+          </button>
+        )}
+      </div>
+    </div>
+  );
+
   return (
     <div className="pt-20">
-      {/* Events Section */}
+      {/* Upcoming Events Section */}
       <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
@@ -56,44 +112,35 @@ const Trainings: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {events.map((event) => (
-              <div key={event.id} className="bg-white rounded-lg overflow-hidden shadow-lg">
-                <div className="h-48 overflow-hidden">
-                  <img
-                    src={event.image}
-                    alt={event.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-4">{event.title}</h3>
-                  <div className="space-y-3 text-gray-600">
-                    <div className="flex items-center">
-                      <Calendar size={18} className="text-red-500 mr-2" />
-                      <span>{event.date}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <Clock size={18} className="text-red-500 mr-2" />
-                      <span>{event.time}</span>
-                    </div>
-                    <div className="flex items-center">
-                      <MapPin size={18} className="text-red-500 mr-2" />
-                      <span>{event.location}</span>
-                    </div>
-                  </div>
-                  <p className="mt-4 text-gray-600">{event.description}</p>
-                  <button className="mt-6 px-6 py-2 bg-red-600 text-white rounded-md hover:bg-red-700 transition-colors">
-                    Register Now
-                  </button>
-                </div>
-              </div>
+            {upcomingEvents.map((event) => (
+              <EventCard key={event.id} event={event} />
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Past Events Section */}
+      <section className="py-20 bg-white">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">
+              Past <span className="text-red-600">Events</span>
+            </h2>
+            <p className="text-gray-700 max-w-3xl mx-auto">
+              Take a look at our successfully completed training sessions and workshops.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {pastEvents.map((event) => (
+              <EventCard key={event.id} event={event} isPast={true} />
             ))}
           </div>
         </div>
       </section>
 
       {/* Trainers Section */}
-      <section className="py-20 bg-white">
+      <section className="py-20 bg-gray-50">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
@@ -106,7 +153,7 @@ const Trainings: React.FC = () => {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
             {trainers.map((trainer) => (
-              <div key={trainer.id} className="bg-gray-50 rounded-lg p-6 flex items-center space-x-6">
+              <div key={trainer.id} className="bg-white rounded-lg p-6 flex items-center space-x-6">
                 <div className="w-24 h-24 flex-shrink-0">
                   <img
                     src={trainer.image}
